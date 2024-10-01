@@ -1,7 +1,7 @@
 package services;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import models.Produto;
 import models.Categoria;
 
@@ -14,29 +14,31 @@ public class GerenciamentoProdutoService {
     }
 
     public List<Produto> listarProdutos() {
-        return produtos;
+        return new ArrayList<>(produtos);
     }
 
-    public void atualizarPrecoProduto(int id, double preco) {
+    public boolean atualizarPrecoProduto(int id, double preco) {
         for (Produto produto : produtos) {
             if (produto.getId() == id) {
                 produto.setPreco(preco);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
-    public void atualizarEstoqueProduto(int id, int quantidade) {
+    public boolean atualizarEstoqueProduto(int id, int quantidade) {
         for (Produto produto : produtos) {
             if (produto.getId() == id) {
                 produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() + quantidade);
-                break;
+                return true;
             }
         }
+        return false;
     }
     
-    public void removerProduto(int id) {
-        produtos.removeIf(produto -> produto.getId() == id);
+    public boolean removerProduto(int id) {
+        return produtos.removeIf(produto -> produto.getId() == id);
     }
 
     public void adicionarCategoria(Categoria categoria) {
@@ -44,15 +46,10 @@ public class GerenciamentoProdutoService {
     }
 
     public boolean produtoExiste(int id) {
-        for (Produto produto : produtos) {
-            if (produto.getId() == id) {
-                return true;
-            }
-        }
-        return false;
+        return produtos.stream().anyMatch(produto -> produto.getId() == id);
     }
 
     public List<Categoria> listarCategorias() {
-        return categorias;
+        return new ArrayList<>(categorias);
     }
 }

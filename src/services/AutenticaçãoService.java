@@ -1,25 +1,44 @@
 package services;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import utils.HashingUtil;
 
 public class AutenticaçãoService {
-    private Map<String, String> administradores = new HashMap<>();
-    private Map<String, String> clientes = new HashMap<>();
 
-    public AutenticaçãoService() {
-        administradores.put("admin", "senhaAdmin");  // Admin padrão
-        clientes.put("cliente", "senhaCliente");  // Cliente padrão
+    private static final String ARQUIVO_CLIENTES = "usuarios/clientes.txt";
+    private static final String ARQUIVO_FUNCIONARIOS = "usuarios/funcionarios.txt";
+
+    public boolean autenticarUsuario(String username, String senha, String tipoUsuario) throws IOException {
+        String arquivo;
+
+        if (tipoUsuario.equals("cliente")) {
+            arquivo = ARQUIVO_CLIENTES;
+        } else if (tipoUsuario.equals("funcionario")) {
+            arquivo = ARQUIVO_FUNCIONARIOS;
+        } else {
+            return false;
+        }
+
+        return verificarCredenciais(username, senha, arquivo);
     }
 
-    public boolean autenticarAdministrador(String username, String senha) {
-        return administradores.containsKey(username) && administradores.get(username).equals(senha);
-    }
+    private boolean verificarCredenciais(String username, String senha, String arquivo) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] partes = linha.split(":");
 
-    public boolean autenticarCliente(String username, String senha) {
-        return clientes.containsKey(username) && clientes.get(username).equals(senha);
-    }
-
-    public void registrarCliente(String username, String senha) {
-        clientes.put(username, senha);
+                if (partes.length == 3 && partes[0].equals(username)) {
+                    String hashComSaltArmazenado = partes[1] + ":" + partes[2];
+    
+                    System.out.println(senha);
+                    System.out.println(hashComSaltArmazenado);
+                    return HashingUtil.validarSenha(senha, hashComSaltArmazenado);
+                }
+            }
+        }
+        return false; 
     }
 }
