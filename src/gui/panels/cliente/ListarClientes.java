@@ -1,9 +1,12 @@
-package gui.panels;
+package gui.panels.cliente;
 
 import javax.swing.*;
+
+import gui.panels.PainelExibicao;
+
 import java.awt.*;
 
-public class PainelClientes implements PainelExibicao {
+public class ListarClientes implements PainelExibicao {
 
     @Override
     public JPanel mostrar() {

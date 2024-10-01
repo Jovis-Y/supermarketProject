@@ -1,13 +1,15 @@
-package models;
+package services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import models.Produto;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-public abstract class Fornecedor {
+public class Fornecedor {
     private int id;
     private String nome;
     private String endereco;
@@ -47,13 +49,6 @@ public abstract class Fornecedor {
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
-    }
-
-    public void exibirInformacoes() {
-        System.out.println("Fornecedor ID: " + id);
-        System.out.println("Nome: " + nome);
-        System.out.println("Endereço: " + endereco);
-        System.out.println("Contato: " + contato);
     }
 
     public List<Produto> getProdutos() {

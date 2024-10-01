@@ -5,12 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import gui.panels.PainelExibicao;
-import gui.panels.PainelProdutos;
-import gui.panels.PainelFuncionarios;
-import gui.panels.PainelClientes;
+import gui.panels.produto.*;
+import gui.panels.cliente.*;
+import gui.panels.funcionario.*;
+import services.Fornecedor;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class DashboardScreen extends JFrame {
     private JPanel contentPanel;
+    private List<Fornecedor> fornecedores;
 
     public DashboardScreen() {
         setTitle("Dashboard");
@@ -22,20 +27,24 @@ public class DashboardScreen extends JFrame {
         // Cria a barra de menu
         JMenuBar menuBar = new JMenuBar();
 
+        fornecedores = new ArrayList<Fornecedor>();
+        fornecedores.add(new Fornecedor(1, "Fornecedor 1", "Rua 1", "123456", "data/produtosFornecedor.csv"));
+        
         // Configura menus
         JMenu menuProdutos = new JMenu("Produtos");
         JMenuItem itemProdutos = new JMenuItem("Listar Produtos");
-        itemProdutos.addActionListener(new MenuActionListener(new PainelProdutos()));
+        itemProdutos.addActionListener(new MenuActionListener(new ListarProdutos()));
+        itemProdutos.addActionListener(new MenuActionListener(new AdicionarProduto(fornecedores)));
         menuProdutos.add(itemProdutos);
 
         JMenu menuFuncionarios = new JMenu("Funcionários");
         JMenuItem itemFuncionarios = new JMenuItem("Listar Funcionários");
-        itemFuncionarios.addActionListener(new MenuActionListener(new PainelFuncionarios()));
+        itemFuncionarios.addActionListener(new MenuActionListener(new ListarFuncionarios()));
         menuFuncionarios.add(itemFuncionarios);
 
         JMenu menuClientes = new JMenu("Clientes");
         JMenuItem itemClientes = new JMenuItem("Listar Clientes");
-        itemClientes.addActionListener(new MenuActionListener(new PainelClientes()));
+        itemClientes.addActionListener(new MenuActionListener(new ListarClientes()));
         menuClientes.add(itemClientes);
 
         // Adiciona menus à barra de menu

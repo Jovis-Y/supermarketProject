@@ -1,13 +1,15 @@
-package gui.panels;
+package gui.panels.produto;
 
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import models.Produto;
 import controllers.ProdutoController;
+import gui.panels.PainelExibicao;
+
 import java.util.List;
 
-public class PainelProdutos implements PainelExibicao {
+public class ListarProdutos implements PainelExibicao {
     private ProdutoController produtoController = new ProdutoController();
 
     @Override

@@ -1,9 +1,12 @@
-package gui.panels;
+package gui.panels.funcionario;
 
 import javax.swing.*;
+
+import gui.panels.PainelExibicao;
+
 import java.awt.*;
 
-public class PainelFuncionarios implements PainelExibicao {
+public class ListarFuncionarios implements PainelExibicao {
 
     @Override
     public JPanel mostrar() {
