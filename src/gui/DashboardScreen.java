@@ -32,9 +32,13 @@ public class DashboardScreen extends JFrame {
         
         // Configura menus
         JMenu menuProdutos = new JMenu("Produtos");
+        
         JMenuItem itemProdutos = new JMenuItem("Listar Produtos");
         itemProdutos.addActionListener(new MenuActionListener(new ListarProdutos()));
-        itemProdutos.addActionListener(new MenuActionListener(new AdicionarProduto(fornecedores)));
+        
+        JMenuItem itemAdicionarProduto = new JMenuItem("Adicionar Produto");
+        itemAdicionarProduto.addActionListener(new MenuActionListener(new AdicionarProduto(fornecedores)));
+        menuProdutos.add(itemAdicionarProduto);
         menuProdutos.add(itemProdutos);
 
         JMenu menuFuncionarios = new JMenu("Funcionários");

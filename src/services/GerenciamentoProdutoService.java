@@ -38,7 +38,7 @@ public class GerenciamentoProdutoService {
     private void salvarProdutos() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE_PATH))) {
             for (Produto produto : produtos) {
-                String line = produto.getId() + "," + produto.getNome() + "," + produto.getPreco() + "," + produto.getQuantidadeEmEstoque();
+                String line = produto.getId() + "," + produto.getNome() + "," + produto.getCategoria() + "," + produto.getPreco() + "," + produto.getQuantidadeEmEstoque();
                 bw.write(line);
                 bw.newLine();
             }
@@ -94,6 +94,12 @@ public class GerenciamentoProdutoService {
     }
 
     public void adicionarProduto(Produto produto) {
+        if (produtoExiste(produto.getId())) {
+            atualizarEstoqueProduto(produto.getId(), produto.getQuantidadeEmEstoque());
+            salvarProdutos();
+            return;
+        }
+
         produtos.add(produto);
         salvarProdutos();
     }

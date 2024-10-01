@@ -2,6 +2,7 @@ package gui.panels.produto;
 
 import services.Fornecedor;
 import models.Produto;
+import controllers.ProdutoController;
 
 import javax.swing.*;
 
@@ -19,6 +20,8 @@ public class AdicionarProduto implements PainelExibicao {
     private JTextArea txtProdutos;
     private JTextField txtId;
     private JTextField txtQuantidade;
+    private ProdutoController produtoController = new ProdutoController();
+    private Produto produtoSelecionado;
 
     public AdicionarProduto(List<Fornecedor> fornecedores) {
         this.fornecedores = fornecedores;
@@ -69,7 +72,8 @@ public class AdicionarProduto implements PainelExibicao {
                 boolean produtoEncontrado = false;
                 for (Produto produto : fornecedorSelecionado.getProdutos()) {
                     if (produto.getId() == id) {
-                        produto.setQuantidadeEmEstoque(produto.getQuantidadeEmEstoque() + quantidade);
+
+                        produtoSelecionado = new Produto(produto);
                         produtoEncontrado = true;
                         break;
                     }
@@ -77,6 +81,11 @@ public class AdicionarProduto implements PainelExibicao {
 
                 if (produtoEncontrado) {
                     JOptionPane.showMessageDialog(panel, "Produto adicionado com sucesso!");
+
+                    // Atualizar a lista de produtos
+                    produtoSelecionado.setQuantidadeEmEstoque(quantidade);
+                    produtoController.adicionarProduto(produtoSelecionado);
+
                 } else {
                     JOptionPane.showMessageDialog(panel, "Produto não encontrado!");
                 }
@@ -84,7 +93,9 @@ public class AdicionarProduto implements PainelExibicao {
                 // Limpar campos após adicionar
                 txtId.setText("");
                 txtQuantidade.setText("");
-            }
+
+
+            }  
         });
 
         // Adicionar componentes ao painel de entrada

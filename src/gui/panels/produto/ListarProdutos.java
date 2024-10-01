@@ -10,10 +10,11 @@ import gui.panels.PainelExibicao;
 import java.util.List;
 
 public class ListarProdutos implements PainelExibicao {
-    private ProdutoController produtoController = new ProdutoController();
+    private ProdutoController produtoController;
 
     @Override
     public JPanel mostrar() {
+        produtoController = new ProdutoController();
         List<Produto> produtos = produtoController.listarProdutos();
         String[] columnNames = {"ID", "Nome", "Categoria", "Preço", "Estoque"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
@@ -35,5 +36,6 @@ public class ListarProdutos implements PainelExibicao {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
+        
     }
 }
