@@ -23,9 +23,11 @@ public class DashboardCliente extends JFrame {
     private JLabel totalLabel;
     private JTextField searchField;
     private JButton searchButton;
+    private String usuario;
 
-    public DashboardCliente() {
-        setTitle("Dashboard Cliente");
+    public DashboardCliente(String usuario) {
+        this.usuario = usuario;
+        setTitle("Dashboard Cliente - " + usuario);
         setSize(1000, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -171,23 +173,23 @@ public class DashboardCliente extends JFrame {
         reciboDialog.setSize(400, 300);
         reciboDialog.setLayout(new BorderLayout());
 
-        JTextArea reciboTextArea = new JTextArea();
-        reciboTextArea.setEditable(false);
-        StringBuilder reciboText = new StringBuilder("Recibo de Compra:\n\n");
-        double total = 0.0;
+        DefaultTableModel reciboTableModel = new DefaultTableModel(new Object[]{"Produto", "Quantidade", "Preço Total"}, 0);
+        JTable reciboTable = new JTable(reciboTableModel);
 
+        double total = 0.0;
         for (Map.Entry<Produto, Integer> entry : carrinho.getItens().entrySet()) {
             Produto produto = entry.getKey();
             int quantidade = entry.getValue();
             double precoTotal = produto.getPreco() * quantidade;
-            reciboText.append(String.format("%s - Quantidade: %d - Preço Total: R$ %.2f\n", produto.getNome(), quantidade, precoTotal));
+            reciboTableModel.addRow(new Object[]{produto.getNome(), quantidade, String.format("R$ %.2f", precoTotal)});
             total += precoTotal;
         }
 
-        reciboText.append(String.format("\nTotal: R$ %.2f", total));
-        reciboTextArea.setText(reciboText.toString());
+        reciboDialog.add(new JScrollPane(reciboTable), BorderLayout.CENTER);
 
-        reciboDialog.add(new JScrollPane(reciboTextArea), BorderLayout.CENTER);
+        JLabel totalLabel = new JLabel(String.format("Total: R$ %.2f", total));
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        totalLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JPanel buttonPanel = new JPanel();
         JButton confirmarButton = new JButton("Confirmar");
@@ -213,6 +215,7 @@ public class DashboardCliente extends JFrame {
         buttonPanel.add(confirmarButton);
         buttonPanel.add(cancelarButton);
 
+        reciboDialog.add(totalLabel, BorderLayout.NORTH);
         reciboDialog.add(buttonPanel, BorderLayout.SOUTH);
         reciboDialog.setLocationRelativeTo(this);
         reciboDialog.setVisible(true);
@@ -220,7 +223,7 @@ public class DashboardCliente extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            DashboardCliente dashboard = new DashboardCliente();
+            DashboardCliente dashboard = new DashboardCliente("Cliente");
             dashboard.setVisible(true);
         });
     }

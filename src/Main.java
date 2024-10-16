@@ -1,6 +1,6 @@
 import gui.LoginScreen;
 import gui.DashboardScreen;
-
+import gui.DashboardCliente;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,10 +19,9 @@ public class Main {
             DashboardScreen dashboardScreen = new DashboardScreen();
             dashboardScreen.setVisible(true);
         } else if (loginScreen.isClient()) {
-            // Cria e exibe a tela de produtos
-            
+            String usuario = loginScreen.getUsuario(); // Supondo que você tenha um método getUsuario() na LoginScreen
+            DashboardCliente dashboardCliente = new DashboardCliente(usuario);
+            dashboardCliente.setVisible(true);
         }
-
     }
 }
-

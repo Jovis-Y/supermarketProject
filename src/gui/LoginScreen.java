@@ -141,6 +141,10 @@ public class LoginScreen extends JFrame {
     public boolean isLoginSucess() {
         return loginSucess;
     }
+
+    public String getUsuario() {
+        return userField.getText();
+    }
     
     public static void main(String[] args) {
         
