@@ -22,4 +22,10 @@ public class Carrinho {
     public Map<Produto, Integer> getItens() {
         return itens;
     }
+
+    public void limpar() {
+
+        itens.clear();
+
+    }
 }
